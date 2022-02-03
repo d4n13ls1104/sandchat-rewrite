@@ -5,11 +5,9 @@ import {
   Generated,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Channel } from '../channels/channel.entity';
-import { Message } from '../messages/message.entity';
 
 @Entity()
 @ObjectType()
@@ -39,14 +37,6 @@ export class User {
   @ManyToMany(() => Channel, (channel) => channel.members)
   @JoinTable()
   channels: Channel[];
-
-  @OneToMany(() => Message, (message) => message.author)
-  @JoinTable()
-  messages: Message[];
-
-  @ManyToMany(() => User)
-  @JoinTable()
-  dm_history: User[];
 
   @Field()
   @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP' })

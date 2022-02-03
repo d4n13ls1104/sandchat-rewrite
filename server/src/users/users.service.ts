@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
-    return this.usersRepository.findOneOrFail({ where: { username } });
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   async invalidateAuthToken(user: User): Promise<User> {

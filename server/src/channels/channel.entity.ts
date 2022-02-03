@@ -1,13 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Message } from '../messages/message.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 
 export enum ChannelType {
@@ -35,8 +27,4 @@ export class Channel {
 
   @ManyToMany(() => User)
   members: User[];
-
-  @OneToMany(() => Message, (message) => message.channel)
-  @JoinTable()
-  messages: Message[];
 }

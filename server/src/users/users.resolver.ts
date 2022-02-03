@@ -6,6 +6,7 @@ import { CreateUserInput, createUserValidationSchema } from './dto/create-user';
 import { hash } from 'argon2';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/dto/jwt-auth.guard';
+import { capitalizeFirstChar } from '../util/capitalize-first-char';
 
 @Resolver()
 export class UsersResolver {
@@ -22,7 +23,7 @@ export class UsersResolver {
         errors: [
           {
             field: err.path,
-            message: err.message,
+            message: capitalizeFirstChar(err.message),
           },
         ],
       };
