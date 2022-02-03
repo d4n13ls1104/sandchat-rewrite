@@ -1,27 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { formatDocument, useMutation } from "urql";
-import { FormAlert } from "../components/FormAlert";
-
-const CREATE_USER_MUTAITON = `
-  mutation createUser(
-    $email: String!
-    $username: String!
-    $password: String!
-  ) {
-    createUser(createUserInput: { email: $email, username: $username, password: $password }) {
-      user {
-        id,
-        username,
-        createdAt
-      },
-      errors {
-        field,
-        message
-      }
-    }
-  }
-`;
+import { useMutation } from "urql";
+import { Link } from "../components/common/Link";
+import { FormAlert } from "../components/form/FormAlert";
+import { FormButton } from "../components/form/FormButton";
+import { FormInput } from "../components/form/FormInput";
+import { FormSubText } from "../components/form/FormSubText";
+import { FormWrapper } from "../components/form/FormWrapper";
+import { CREATE_USER_MUTAITON } from "../gql/Mutations";
 
 const initialInput = {
   email: "",
@@ -98,73 +83,3 @@ export const Register: React.FC = () => {
     </>
   );
 };
-
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 350px;
-  height: 380px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-`;
-
-const FormInput = styled.input`
-  height: 14%;
-  background-color: #242c37;
-  border: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 8px;
-  color: #dee3ea;
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  outline: none;
-  transition: padding 150ms;
-
-  :hover {
-    padding: 13px;
-  }
-`;
-
-const FormButton = styled.button<{ loading?: boolean }>`
-  height: 14%;
-  border: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-  background-color: ${(props) => (props.loading ? "#D1D5DB" : "#4C21E8")};
-  font-size: 18px;
-  color: ${(props) => (props.loading ? "#9CA3AF" : "#fff")};
-  font-weight: bold;
-  transition: background-color 200ms;
-  cursor: pointer;
-  outline: none;
-
-  :hover {
-    background-color: ${(props) => (props.loading ? "" : "#3D15CB")};
-  }
-`;
-
-const FormSubText = styled.span`
-  text-align: center;
-  color: #b2bdcd;
-`;
-
-const Link = styled.a<{
-  linkColor?: string | undefined;
-  hoverColor?: string | undefined;
-}>`
-  color: ${(props) =>
-    props.linkColor !== undefined ? props.linkColor : `#4C21E8`};
-  text-decoration: none;
-  transition: color 150ms;
-
-  :hover {
-    color: ${(props) =>
-      props.hoverColor !== undefined ? props.hoverColor : ""};
-  }
-`;
