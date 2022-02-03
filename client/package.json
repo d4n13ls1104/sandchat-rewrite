@@ -1,0 +1,29 @@
+{
+  "name": "sandchat",
+  "main": "src/electron.js",
+  "version": "1.0.0",
+  "author": "drew",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/styled-components": "^5.1.21",
+    "electron": "^17.0.0",
+    "parcel": "^2.2.1",
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "start": "parcel serve ./public/index.html --public-url ./",
+    "electron": "electron ."
+  },
+  "dependencies": {
+    "graphql": "^16.3.0",
+    "graphql-tag": "^2.12.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "styled-components": "^5.3.3",
+    "urql": "^2.1.3"
+  }
+}
