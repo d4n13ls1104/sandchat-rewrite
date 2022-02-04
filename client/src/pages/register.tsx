@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "urql";
-import { Link } from "../components/common/Link";
+import { Link } from "react-router-dom";
+import { LinkText } from "../components/common/Link";
 import { FormAlert } from "../components/form/FormAlert";
 import { FormButton } from "../components/form/FormButton";
 import { FormInput } from "../components/form/FormInput";
@@ -24,17 +25,30 @@ export const Register: React.FC = () => {
   const [, createUser] = useMutation(CREATE_USER_MUTAITON);
   const [error, setError] = useState<FieldError>();
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState<boolean | undefined>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("keypress", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const handleSubmit = () => {
+    // Reset previous error because there's a new request
     setError(undefined);
+
     setLoading(true);
+
     createUser(input).then((result) => {
+      // If register was successful
       if (result.data.createUser.user) {
         setInput(initialInput);
+
         setSuccess(true);
       }
 
+      // If the server returned errors
       if (result.data.createUser.errors) {
         const { field, message } = result.data.createUser.errors[0];
         setError({
@@ -43,7 +57,11 @@ export const Register: React.FC = () => {
         });
       }
     });
-    setLoading(undefined);
+    setLoading(false);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") handleSubmit();
   };
 
   return (
@@ -77,7 +95,14 @@ export const Register: React.FC = () => {
           Register
         </FormButton>
         <FormSubText>
-          Already have an account? <Link href="/login">Login</Link>!
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            style={{ textDecoration: "none", cursor: "pointer" }}
+          >
+            <LinkText>Login</LinkText>
+          </Link>
+          !
         </FormSubText>
       </FormWrapper>
     </>
