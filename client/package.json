@@ -17,7 +17,11 @@
     "start": "parcel serve ./public/index.html --public-url ./",
     "electron": "electron ."
   },
+  "build": {
+    "win": "build/icon.png"
+  },
   "dependencies": {
+    "electron-localshortcut": "^3.2.1",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "react": "^17.0.2",
