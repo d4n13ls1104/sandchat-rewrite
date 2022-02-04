@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FormButton = styled.button<{ loading?: boolean }>`
+export const FormButton = styled.button<{ loading: boolean }>`
   height: 14%;
   border: none;
   border-radius: 5px;
