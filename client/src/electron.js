@@ -18,7 +18,6 @@ function createWindow(){
     win.maximize();
     win.removeMenu(true);
     win.setTitle('Sandchat');
-    win.webContents.openDevTools();
 }
 
 app.on('ready', () => {
