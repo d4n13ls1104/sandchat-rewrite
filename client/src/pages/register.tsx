@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation } from "urql";
 import { Link } from "react-router-dom";
 import { LinkText } from "../components/common/Link";
@@ -7,7 +7,7 @@ import { FormButton } from "../components/form/FormButton";
 import { FormInput } from "../components/form/FormInput";
 import { FormSubText } from "../components/form/FormSubText";
 import { FormWrapper } from "../components/form/FormWrapper";
-import { CREATE_USER_MUTAITON } from "../gql/Mutations";
+import { useCreateUserMutation } from "../generated/graphql";
 
 const initialInput = {
   email: "",
@@ -22,25 +22,31 @@ interface FieldError {
 
 export const Register: React.FC = () => {
   const [input, setInput] = useState(initialInput);
-  const [, createUser] = useMutation(CREATE_USER_MUTAITON);
+  const [, createUser] = useCreateUserMutation();
   const [error, setError] = useState<FieldError>();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef() as React.MutableRefObject<typeof initialInput>;
+
+  inputRef.current = input;
 
   useEffect(() => {
     window.addEventListener("keypress", handleKeyDown);
+
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keypress", handleKeyDown);
     };
   }, []);
 
   const handleSubmit = () => {
-    // Reset previous error because there's a new request
+    // Reset error
     setError(undefined);
 
     setLoading(true);
 
-    createUser(input).then((result) => {
+    createUser(inputRef.current).then((result) => {
+      if (!result.data) return;
+
       // If register was successful
       if (result.data.createUser.user) {
         setInput(initialInput);
@@ -71,6 +77,7 @@ export const Register: React.FC = () => {
       ) : null}
 
       {success ? <FormAlert type="success">Account created.</FormAlert> : null}
+
       <FormWrapper>
         <h1>Register</h1>
         <FormInput
