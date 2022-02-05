@@ -6,6 +6,10 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@graphql-codegen/cli": "2.5.0",
+    "@graphql-codegen/typescript": "2.4.3",
+    "@graphql-codegen/typescript-operations": "2.2.4",
+    "@graphql-codegen/typescript-urql": "^3.5.1",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.21",
@@ -15,7 +19,8 @@
   },
   "scripts": {
     "start": "parcel serve ./public/index.html --public-url ./",
-    "electron": "electron ."
+    "electron": "electron .",
+    "gen": "graphql-codegen --config codegen.yml"
   },
   "build": {
     "win": "build/icon.png"
