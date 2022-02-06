@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useMutation } from "urql";
 import { LinkText } from "../components/common/Link";
 import { FormAlert } from "../components/form/FormAlert";
 import { FormButton } from "../components/form/FormButton";
@@ -46,8 +45,7 @@ export const Login: React.FC = () => {
 
       // If access_token was returned the login was successful
       if (result.data.login.access_token) {
-        localStorage.setItem("auth-token", result.data.login.access_token);
-        console.log(result.data.login.access_token);
+        localStorage.setItem("auth", result.data.login.access_token);
       }
 
       // If the server returned errors
