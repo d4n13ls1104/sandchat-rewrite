@@ -1,8 +1,8 @@
 import { createClient, Provider } from "urql";
-import { Register } from "./pages/Register";
+import { Register } from "./pages/register";
 import { Route, Routes } from "react-router";
 import { HashRouter } from "react-router-dom";
-import { Login } from "./pages/Login";
+import { Login } from "./pages/login";
 
 const client = createClient({
   url: "http://localhost:3000/graphql",
