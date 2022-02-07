@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { LinkText } from "../components/common/Link";
 import { FormAlert } from "../components/form/FormAlert";
@@ -22,6 +23,7 @@ export const Login: React.FC = () => {
   const [input, setInput] = useState(initialInput);
   const [error, setError] = useState<FieldError>();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [, login] = useLoginMutation();
   const inputRef = useRef(input) as React.MutableRefObject<typeof initialInput>;
   inputRef.current = input;
@@ -46,6 +48,7 @@ export const Login: React.FC = () => {
       // If access_token was returned the login was successful
       if (result.data.login.access_token) {
         localStorage.setItem("auth", result.data.login.access_token);
+        setSuccess(true);
       }
 
       // If the server returned errors
@@ -70,6 +73,8 @@ export const Login: React.FC = () => {
       {error != undefined ? (
         <FormAlert type="error">{error?.message}</FormAlert>
       ) : null}
+
+      {success ? <Navigate to="/home" /> : null}
 
       <FormWrapper>
         <h1>Login</h1>
