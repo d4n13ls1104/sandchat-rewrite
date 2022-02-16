@@ -8,7 +8,7 @@ const startUrl = url.format({
     slashes: true
 });
 
-function createWindow(){
+const createWindow = () =>{
     const win = new BrowserWindow({
         width: 480,
         height: 800
@@ -18,6 +18,7 @@ function createWindow(){
     win.maximize();
     win.removeMenu(true);
     win.setTitle('Sandchat');
+    win.webContents.openDevTools();
 }
 
 app.on('ready', () => {

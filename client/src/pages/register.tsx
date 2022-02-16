@@ -37,30 +37,27 @@ export const Register: React.FC = () => {
     };
   }, []);
 
-  const handleSubmit = () => {
-    // Reset error
+  const resetFormAlerts = () => {
     setError(undefined);
+    setSuccess(false);
+  };
+
+  const handleSubmit = () => {
+    resetFormAlerts();
 
     setLoading(true);
 
     createUser(inputRef.current).then((result) => {
       if (!result.data) return;
 
-      // If register was successful
-      if (result.data.createUser.user) {
-        setInput(initialInput);
+      const { user, errors } = result.data.createUser;
 
+      if (user) {
+        setInput(initialInput);
         setSuccess(true);
       }
 
-      // If the server returned errors
-      if (result.data.createUser.errors) {
-        const { field, message } = result.data.createUser.errors[0];
-        setError({
-          field,
-          message,
-        });
-      }
+      if (errors) setError(errors[0]);
     });
     setLoading(false);
   };
@@ -71,31 +68,29 @@ export const Register: React.FC = () => {
 
   return (
     <>
-      {error != undefined ? (
-        <FormAlert type="error">{error?.message}</FormAlert>
-      ) : null}
+      {!!error ? <FormAlert type='error'>{error.message}</FormAlert> : null}
 
-      {success ? <FormAlert type="success">Account created.</FormAlert> : null}
+      {success ? <FormAlert type='success'>Account created.</FormAlert> : null}
 
       <FormWrapper>
-        <h1>Register</h1>
+        <h1 style={{ margin: 0 }}>Register</h1>
         <FormInput
           onChange={(e) => setInput({ ...input, email: e.target.value })}
           value={input.email}
-          type="email"
-          placeholder="Email address"
+          type='email'
+          placeholder='Email address'
         />
         <FormInput
           onChange={(e) => setInput({ ...input, username: e.target.value })}
           value={input.username}
-          type="text"
-          placeholder="Username"
+          type='text'
+          placeholder='Username'
         />
         <FormInput
           onChange={(e) => setInput({ ...input, password: e.target.value })}
           value={input.password}
-          type="password"
-          placeholder="Password"
+          type='password'
+          placeholder='Password'
         />
         <FormButton onClick={handleSubmit} loading={loading}>
           Register
@@ -103,7 +98,7 @@ export const Register: React.FC = () => {
         <FormSubText>
           Already have an account?{" "}
           <Link
-            to="/login"
+            to='/login'
             style={{ textDecoration: "none", cursor: "pointer" }}
           >
             <LinkText>Login</LinkText>
